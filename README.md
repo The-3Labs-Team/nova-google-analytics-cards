@@ -69,3 +69,35 @@ use The3LabsTeam\NovaGoogleAnalyticsCards\Counter\ActiveUsersCounter;
 
 ```
 
+### Using the `PageViewLineChart` card in single Article
+
+1. Add in your `Article` model the following attribute:
+
+```php
+/**
+* Return the full title for Google Analytics
+* 
+* @return string
+*/
+public function getFullGaTitleAttribute(): string
+{
+    //Set the name of your article title on the Google Analytics
+    return $this->title . ' - ' . env('APP_NAME'); 
+}
+```
+
+2. Add the card in your `Nova\Article` resource:
+
+```php
+public function cards(NovaRequest $request)
+{
+    $article = \App\Models\Article::find($request->resourceId);
+
+    return [
+        (new PageViewLineChart(gaArticleTitle: $this->full_ga_title))->width('full')
+        ->onlyOnDetail()
+        ->height('dynamic'),
+    ];
+}
+```
+

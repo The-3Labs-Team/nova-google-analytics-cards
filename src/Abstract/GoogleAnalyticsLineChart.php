@@ -7,17 +7,23 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Nova;
 use Spatie\Analytics\Facades\Analytics;
+use Google\Analytics\Data\V1beta\Filter;
+use Google\Analytics\Data\V1beta\FilterExpression;
+use Google\Analytics\Data\V1beta\Filter\StringFilter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
 use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
 
 class GoogleAnalyticsLineChart extends Trend
 {
     public $name;
+    public ?string $gaArticleTitle = null;
 
-    public function __construct(?string $name = null)
+    public function __construct(?string $name = null, ?string $gaArticleTitle = null)
     {
         parent::__construct();
         $this->name = $name ?? __($this->title);
+        $this->gaArticleTitle = $gaArticleTitle;
     }
 
     public function getAnalyticsData(
@@ -33,12 +39,26 @@ class GoogleAnalyticsLineChart extends Trend
             OrderBy::metric($metrics, $metricSortByDesc),
         ];
 
+        $dimensionFilter = null;
+        if($this->gaArticleTitle) {
+            $dimensionFilter = new FilterExpression([
+                'filter' => new Filter([
+                    'field_name' => 'pageTitle',
+                    'string_filter' => new StringFilter([
+                        'match_type' => MatchType::EXACT,
+                        'value' => $this->gaArticleTitle,
+                    ]),
+                ]),
+            ]);
+        }
+
         $analyticsData = Analytics::get(
             period: Period::create($startDate, $endDate),
             metrics: [$metrics],
             dimensions: ['date'],
             maxResults: $numberOfDays,
-            orderBy: $orderBy
+            orderBy: $orderBy,
+            dimensionFilter: $dimensionFilter
         );
 
         $formattedData = [];
