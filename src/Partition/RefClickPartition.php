@@ -3,17 +3,14 @@
 namespace The3LabsTeam\NovaGoogleAnalyticsCards\Partition;
 
 use Carbon\Carbon;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\Partition;
-use Spatie\Analytics\OrderBy;
-use Google\Analytics\Data\V1beta\FilterExpression;
 use Google\Analytics\Data\V1beta\Filter;
 use Google\Analytics\Data\V1beta\Filter\StringFilter;
 use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
+use Google\Analytics\Data\V1beta\FilterExpression;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Partition;
 use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
-
-
 
 class RefClickPartition extends Partition
 {
@@ -27,7 +24,8 @@ class RefClickPartition extends Partition
         $this->article = config('nova-google-analytics-cards.article_model')::find($articleId);
     }
 
-    public function getAnalyticsData(): ?array {
+    public function getAnalyticsData(): ?array
+    {
         $numberOfDays = 30;
         $startDate = Carbon::now()->subDays($numberOfDays);
         $endDate = Carbon::now();
@@ -63,7 +61,6 @@ class RefClickPartition extends Partition
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
     public function calculate(NovaRequest $request)
@@ -78,24 +75,22 @@ class RefClickPartition extends Partition
             __('Others') => 0,
         ];
 
-        if(!$analyticsData) {
+        if (! $analyticsData) {
             return $this->result($results);
         }
 
-
         $socials = config('nova-google-analytics-cards.socials');
         foreach ($analyticsData as $data) {
-            if($data['linkDomain'] === "")
-            {
+            if ($data['linkDomain'] === '') {
                 continue;
             }
-            if($data['linkDomain'] === "amazon.it") { //Amazon
+            if ($data['linkDomain'] === 'amazon.it') { // Amazon
                 $results['Amazon'] += $data['eventCount'];
-            } elseif($data['linkDomain'] === "ebay.it" || $data['linkDomain'] === "ebay.com") { //Ebay
+            } elseif ($data['linkDomain'] === 'ebay.it' || $data['linkDomain'] === 'ebay.com') { // Ebay
                 $results['Ebay'] += $data['eventCount'];
-            } elseif($data['linkDomain'] === "instant-gaming.com") {//Instant Gaming
+            } elseif ($data['linkDomain'] === 'instant-gaming.com') {// Instant Gaming
                 $results['Instant Gaming'] += $data['eventCount'];
-            } elseif(in_array($data['linkDomain'], $socials)) { //Socials
+            } elseif (in_array($data['linkDomain'], $socials)) { // Socials
                 $results['Socials'] += $data['eventCount'];
             } else {
                 $results[__('Others')] += $data['eventCount'];

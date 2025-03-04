@@ -10,5 +10,5 @@ return [
         'instagram.com',
         'linkedin.com',
         'mastodon.social',
-    ]
+    ],
 ];
