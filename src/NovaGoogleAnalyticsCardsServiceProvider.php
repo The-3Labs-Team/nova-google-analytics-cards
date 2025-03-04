@@ -4,7 +4,7 @@ namespace The3LabsTeam\NovaGoogleAnalyticsCards;
 
 use Illuminate\Support\ServiceProvider;
 
-//use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
+// use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
 
 class NovaGoogleAnalyticsCardsServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,5 @@ class NovaGoogleAnalyticsCardsServiceProvider extends ServiceProvider
     /**
      * Register the application services.
      */
-    public function register()
-    {
-    }
+    public function register() {}
 }
