@@ -3,20 +3,21 @@
 namespace The3LabsTeam\NovaGoogleAnalyticsCards\Abstract;
 
 use Carbon\Carbon;
+use Google\Analytics\Data\V1beta\Filter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
+use Google\Analytics\Data\V1beta\FilterExpression;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Nova;
 use Spatie\Analytics\Facades\Analytics;
-use Google\Analytics\Data\V1beta\Filter;
-use Google\Analytics\Data\V1beta\FilterExpression;
-use Google\Analytics\Data\V1beta\Filter\StringFilter;
-use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
 use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
 
 class GoogleAnalyticsLineChart extends Trend
 {
     public $name;
+
     public $article = null;
 
     public function __construct(?string $name = null, ?int $articleId = null)
@@ -40,12 +41,12 @@ class GoogleAnalyticsLineChart extends Trend
             OrderBy::metric($metrics, $metricSortByDesc),
         ];
 
-        if($this->article && $this->article->isNotPublished()) {
+        if ($this->article && $this->article->isNotPublished()) {
             return [0, []];
         }
 
         $dimensionFilter = null;
-        if($this->article && $this->article->ga_page_path) {
+        if ($this->article && $this->article->ga_page_path) {
             $dimensionFilter = new FilterExpression([
                 'filter' => new Filter([
                     'field_name' => 'pagePath',
