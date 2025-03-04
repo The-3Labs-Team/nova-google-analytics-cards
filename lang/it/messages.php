@@ -7,4 +7,5 @@ return [
     'pageViewsLineChartTitle' => 'Google Analytics™ - Visualizzazioni pagina fino ad oggi',
     'bounceRateCounterTitle' => 'Google Analytics™ - Frequenza di rimbalzo',
     'bounceRateLineChartTitle' => 'Google Analytics™ - Frequenza di rimbalzo fino ad oggi',
+    'refClickPartitionTitle' => 'Google Analytics™ - Click (Ultimi 30 giorni)',
 ];

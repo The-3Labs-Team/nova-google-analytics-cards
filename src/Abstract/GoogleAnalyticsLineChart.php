@@ -25,7 +25,6 @@ class GoogleAnalyticsLineChart extends Trend
         parent::__construct();
         $this->name = $name ?? __($this->title);
         $this->article = config('nova-google-analytics-cards.article_model')::find($articleId);
-
     }
 
     public function getAnalyticsData(
@@ -49,7 +48,7 @@ class GoogleAnalyticsLineChart extends Trend
         if ($this->article && $this->article->ga_page_path) {
             $dimensionFilter = new FilterExpression([
                 'filter' => new Filter([
-                    'field_name' => 'linkDomain',
+                    'field_name' => 'pagePath',
                     'string_filter' => new StringFilter([
                         'match_type' => MatchType::EXACT,
                         'value' => $this->article->ga_page_path,

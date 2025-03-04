@@ -7,4 +7,5 @@ return [
     'newUsersCounterTitle' => 'Google Analytics™ - New Users',
     'pageViewsCounterTitle' => 'Google Analytics™ - Page Views',
     'pageViewsLineChartTitle' => 'Google Analytics™ - Page Views to date',
+    'refClickPartitionTitle' => 'Google Analytics™ - Click (Last 30 days)',
 ];

@@ -23,7 +23,7 @@ class RefClickPartition extends Partition
     {
         parent::__construct();
 
-        $this->name = __('Ref Clicks');
+        $this->name = __('nova-google-analytics-cards::messages.refClickPartitionTitle');
         $this->article = config('nova-google-analytics-cards.article_model')::find($articleId);
     }
 
@@ -83,24 +83,19 @@ class RefClickPartition extends Partition
         }
 
 
+        $socials = config('nova-google-analytics-cards.socials');
         foreach ($analyticsData as $data) {
             if($data['linkDomain'] === "")
             {
                 continue;
             }
-
             if($data['linkDomain'] === "amazon.it") { //Amazon
                 $results['Amazon'] += $data['eventCount'];
             } elseif($data['linkDomain'] === "ebay.it" || $data['linkDomain'] === "ebay.com") { //Ebay
                 $results['Ebay'] += $data['eventCount'];
             } elseif($data['linkDomain'] === "instant-gaming.com") {//Instant Gaming
                 $results['Instant Gaming'] += $data['eventCount'];
-            } elseif($data['linkDomain'] === "facebook.com" ||
-                $data['linkDomain'] === "twitter.com" ||
-                $data['linkDomain'] === "instagram.com" ||
-                $data['linkDomain'] === "linkedin.com" ||
-                $data['linkDomain'] === "mastodon.social"
-            ) { //Socials
+            } elseif(in_array($data['linkDomain'], $socials)) { //Socials
                 $results['Socials'] += $data['eventCount'];
             } else {
                 $results[__('Others')] += $data['eventCount'];
