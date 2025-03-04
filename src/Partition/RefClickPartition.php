@@ -71,6 +71,7 @@ class RefClickPartition extends Partition
             'Amazon' => 0,
             'Ebay' => 0,
             'Instant Gaming' => 0,
+            'Short' => 0,
             'Socials' => 0,
             __('Others') => 0,
         ];
@@ -90,6 +91,8 @@ class RefClickPartition extends Partition
                 $results['Ebay'] += $data['eventCount'];
             } elseif ($data['linkDomain'] === 'instant-gaming.com') {// Instant Gaming
                 $results['Instant Gaming'] += $data['eventCount'];
+            } elseif ($data['linkDomain'] === 'short.3labs.it') { // Short
+                $results['Short'] += $data['eventCount'];
             } elseif (in_array($data['linkDomain'], $socials)) { // Socials
                 $results['Socials'] += $data['eventCount'];
             } else {
