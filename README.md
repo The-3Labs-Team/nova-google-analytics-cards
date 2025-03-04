@@ -69,7 +69,7 @@ use The3LabsTeam\NovaGoogleAnalyticsCards\Counter\ActiveUsersCounter;
 
 ```
 
-### Using the `PageViewLineChart` card in single Article
+### Using the `PageViewLineChart` and `RefClickPartition card in single Article
 
 1. Add in your `Article` model the following attribute:
 
@@ -91,9 +91,12 @@ public function getGaPagePathAttribute(): string
 public function cards(NovaRequest $request)
 {
     return [
-        (new PageViewLineChart(articleId: $request->resourceId))->width('full')
+        (new PageViewLineChart(articleId: $request->resourceId))->width('1/2 ')
             ->onlyOnDetail()
             ->height('dynamic'),
+        (new RefClickPartition(articleId: $request->resourceId))->width('1/3')
+                ->onlyOnDetail()
+                ->height('dynamic'),
     ];
 }
 ```
