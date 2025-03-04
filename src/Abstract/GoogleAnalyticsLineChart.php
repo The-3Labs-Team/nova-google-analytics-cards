@@ -49,7 +49,7 @@ class GoogleAnalyticsLineChart extends Trend
         if ($this->article && $this->article->ga_page_path) {
             $dimensionFilter = new FilterExpression([
                 'filter' => new Filter([
-                    'field_name' => 'pagePath',
+                    'field_name' => 'linkDomain',
                     'string_filter' => new StringFilter([
                         'match_type' => MatchType::EXACT,
                         'value' => $this->article->ga_page_path,
