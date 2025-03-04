@@ -17,13 +17,14 @@ use Spatie\Analytics\Period;
 class GoogleAnalyticsLineChart extends Trend
 {
     public $name;
-    public ?string $gaArticleTitle = null;
+    public $article = null;
 
-    public function __construct(?string $name = null, ?string $gaArticleTitle = null)
+    public function __construct(?string $name = null, ?int $articleId = null)
     {
         parent::__construct();
         $this->name = $name ?? __($this->title);
-        $this->gaArticleTitle = $gaArticleTitle;
+        $this->article = config('nova-google-analytics-cards.article_model')::find($articleId);
+
     }
 
     public function getAnalyticsData(
@@ -39,14 +40,18 @@ class GoogleAnalyticsLineChart extends Trend
             OrderBy::metric($metrics, $metricSortByDesc),
         ];
 
+        if($this->article && $this->article->isNotPublished()) {
+            return [0, []];
+        }
+
         $dimensionFilter = null;
-        if($this->gaArticleTitle) {
+        if($this->article && $this->article->full_ga_title) {
             $dimensionFilter = new FilterExpression([
                 'filter' => new Filter([
                     'field_name' => 'pageTitle',
                     'string_filter' => new StringFilter([
                         'match_type' => MatchType::EXACT,
-                        'value' => $this->gaArticleTitle,
+                        'value' => $this->article->full_ga_title,
                     ]),
                 ]),
             ]);

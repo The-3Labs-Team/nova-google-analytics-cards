@@ -91,12 +91,10 @@ public function getFullGaTitleAttribute(): string
 ```php
 public function cards(NovaRequest $request)
 {
-    $article = \App\Models\Article::find($request->resourceId);
-
     return [
-        (new PageViewLineChart(gaArticleTitle: $this->full_ga_title))->width('full')
-        ->onlyOnDetail()
-        ->height('dynamic'),
+        (new PageViewLineChart(articleId: $request->resourceId))->width('full')
+            ->onlyOnDetail()
+            ->height('dynamic'),
     ];
 }
 ```
