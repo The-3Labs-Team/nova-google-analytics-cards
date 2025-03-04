@@ -75,14 +75,13 @@ use The3LabsTeam\NovaGoogleAnalyticsCards\Counter\ActiveUsersCounter;
 
 ```php
 /**
-* Return the full title for Google Analytics
-* 
+* Return the page path for Google Analytics
+*
 * @return string
 */
-public function getFullGaTitleAttribute(): string
+public function getGaPagePathAttribute(): string
 {
-    //Set the name of your article title on the Google Analytics
-    return $this->title . ' - ' . env('APP_NAME'); 
+    return '/' . str_replace(config('app.url'), '', $this->route);
 }
 ```
 

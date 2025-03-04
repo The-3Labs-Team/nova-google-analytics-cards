@@ -45,13 +45,13 @@ class GoogleAnalyticsLineChart extends Trend
         }
 
         $dimensionFilter = null;
-        if($this->article && $this->article->full_ga_title) {
+        if($this->article && $this->article->ga_page_path) {
             $dimensionFilter = new FilterExpression([
                 'filter' => new Filter([
-                    'field_name' => 'pageTitle',
+                    'field_name' => 'pagePath',
                     'string_filter' => new StringFilter([
                         'match_type' => MatchType::EXACT,
-                        'value' => $this->article->full_ga_title,
+                        'value' => $this->article->ga_page_path,
                     ]),
                 ]),
             ]);
