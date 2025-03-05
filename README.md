@@ -69,19 +69,17 @@ use The3LabsTeam\NovaGoogleAnalyticsCards\Counter\ActiveUsersCounter;
 
 ```
 
-### Using the `PageViewLineChart` and `RefClickPartition card in single Article
+### Using the `PageViewLineChart` and `RefClickPartition` card in single Article
 
 1. Add in your `Article` model the following attribute:
 
 ```php
 /**
 * Return the page path for Google Analytics
-*
-* @return string
 */
 public function getGaPagePathAttribute(): string
 {
-    return '/' . str_replace(config('app.url'), '', $this->route);
+   return str_replace(config('app.url'), '', $this->route);
 }
 ```
 
